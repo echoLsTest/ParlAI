@@ -1,0 +1,24 @@
+image: python:3.8
+
+pipelines:
+  pull-requests:
+    '**': # Runs as default for all the branches
+      - step:
+          name: Install, Test
+          caches:
+            - pip
+          script:
+            - pip install -r requirements.txt
+            - pytest
+  branches:
+    'master': # Runs for master branch 
+      - step:
+          name: Install, Sample-Test and Validate
+          caches:
+            - pip
+          script:
+            - pip install -r requirements.txt
+            - pytest -s -k TransformerRanker
+            - python3 setup.py develop
+            - parlai display_data -t squad
+            
