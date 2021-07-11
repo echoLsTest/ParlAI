@@ -1,0 +1,24 @@
+FROM ubuntu:latest
+
+# Installing the required packages
+RUN apt-get update \
+    && apt-get install -y \
+     python3 \
+     python3-pip \ 
+     git
+
+# Cloning the repo
+RUN git clone https://github.com/echoLsTest/ParlAI.git
+
+# Set working directory and install prerequisites
+WORKDIR "ParlAI"
+RUN pip3 install -r requirements.txt
+
+# Executing sample test for transformerranker
+RUN pytest -s -k TransformerRanker
+
+# Installing ParlAI
+RUN python3 setup.py install
+
+# Validating parlai for SQuAD
+RUN parlai display_data -t squad
