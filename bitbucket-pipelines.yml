@@ -21,3 +21,4 @@ pipelines:
             - pytest -s -k TransformerRanker
             - python3 setup.py develop
             - parlai display_data -t squad
+            
